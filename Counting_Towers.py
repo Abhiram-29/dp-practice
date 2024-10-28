@@ -16,49 +16,42 @@ MOD = 1_000_000_007
 #region Solve
 
 def solve():
-    n,m = map(int,input().split())
-    arr = list(map(int,input().split()))
+    n = int(input())
+
     '''
-    dp[i][j] = number of ways to create the array till index i if the current value is j
-    if arr[i] == 0 then it can have the values v,v-1,v+1 where v = arr[i-1]
-    transition : dp[i][j] = dp[i-1][j-1]+dp[i-1][j]+dp[i][j+1]
-                 arr[i] != then only dp[i][arr[i]] is allowed and rest are 0
-    base case: if arr[0] != 0 then:
-                dp[0][arr[0]] = 1 (Only 1 way to create the array)
-               else:
-                dp[0][v] = 1 for all possible values v.
-    final answer : sum(dp[n-1]) as the last element can be zero
+    The below solution doesn't work
+
+    dp[i][j] = number of way to fill the tower to
+               height i at jth position (j is for width)
+    dp[0][0] = 1 (fill nothing)
+    transition : dp[i][j] += dp[i-k][j-l] where 1<=k<=i and 1<=l<=2
+    final subproblem : dp[n][n]
+
+    The above 2-D dp solution won't work an n <= 10^6
     '''
 
-    dp = [[0]*(m+1) for _ in range(n)]
+    '''
+    dp[i] = number of ways to fill the tower till height i
+    dp[0] = 1
+    
+    '''
 
-    if arr[0] != 0:
-        dp[0][arr[0]] = 1
-    else:
-        for i in range(1,m+1):
-            dp[0][i] = 1
+    dp = [[0]*2 for _ in range(n+1)]
 
-    for i in range(1,n):
-        if arr[i] != 0:
-            j = arr[i]
-            for k in [j-1,j,j+1]:
-                if k > 0 and k <= m:
-                    dp[i][j] += dp[i-1][k]
-                    dp[i][j] %= MOD
-        else:
-            for j in range(1,m+1):
-                for k in [j-1,j,j+1]:
-                    if k > 0 and k <= m:
-                        dp[i][j] += dp[i-1][k]
-                        dp[i][j] %= MOD
-    ans = 0
-    for num in dp[n-1]:
-        ans += num
-        ans %= MOD
-    print(ans)
+    for i in range(n+1):
+        for j in range(2):
+            
+
+ 
+
 
 def main():
-    solve()
+    #solve()
+    #sys.setrecursionlimit(10 ** 5)
+    t = int(input())
+    for i in range(t):
+        solve()
+
 
 # region fastio
 
